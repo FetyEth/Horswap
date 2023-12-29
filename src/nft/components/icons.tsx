@@ -50,12 +50,6 @@ export const ChevronUpIcon = ({
   </svg>
 )
 
-export const BackArrowIcon = (props: SVGProps) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" {...props}>
-    <path d="M5.676 13.645c0 .263.114.527.316.72l5.801 5.792c.21.202.44.3.694.3.554 0 .958-.396.958-.933a.934.934 0 00-.29-.694l-1.977-2.004-2.55-2.329 2.049.123h10.652c.58 0 .985-.404.985-.975 0-.58-.405-.985-.985-.985H10.677l-2.04.123 2.54-2.329 1.978-2.004a.934.934 0 00.29-.694c0-.536-.404-.932-.958-.932-.255 0-.492.097-.72.317l-5.775 5.774a1.012 1.012 0 00-.316.73z" />
-  </svg>
-)
-
 export const VerifiedIcon = (props: SVGProps) => {
   const theme = useTheme()
   return (
@@ -142,28 +136,6 @@ export const EllipsisIcon = (props: SVGProps) => (
       strokeLinecap="round"
       strokeLinejoin="round"
     />
-  </svg>
-)
-
-export const LightningBoltIcon = (props: SVGProps) => (
-  <svg {...props} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path
-      d="M6.51562 12.6003C6.51562 12.9092 6.7567 13.1427 7.08817 13.1427H11.4576L9.15988 19.3126C8.851 20.1338 9.70229 20.5707 10.2447 19.9078L17.281 11.1991C17.4166 11.0258 17.4844 10.8676 17.4844 10.6943C17.4844 10.3779 17.2433 10.1519 16.9118 10.1519H12.5424L14.8401 3.97447C15.149 3.15332 14.2977 2.71638 13.7553 3.38686L6.72656 12.0956C6.59096 12.2613 6.51562 12.4195 6.51562 12.6003Z"
-      fill="#111111"
-    />
-    <defs>
-      <linearGradient
-        id="paint0_linear_1845_11847"
-        x1="17.4844"
-        y1="3.05859"
-        x2="1.90385"
-        y2="13.0107"
-        gradientUnits="userSpaceOnUse"
-      >
-        <stop stopColor="#4673FA" />
-        <stop offset="1" stopColor="#9646FA" />
-      </linearGradient>
-    </defs>
   </svg>
 )
 
@@ -362,14 +334,6 @@ export const TagIcon = (props: SVGProps) => (
       strokeLinecap="round"
       strokeLinejoin="round"
     />
-  </svg>
-)
-
-export const BarChartIcon = (props: SVGProps) => (
-  <svg fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
-    <path d="M12 20V10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-    <path d="M6 20V4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-    <path d="M18 20V16" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 )
 

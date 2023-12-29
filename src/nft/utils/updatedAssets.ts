@@ -10,17 +10,6 @@ const sortUpdatedAssets = (x: UpdatedGenieAsset, y: UpdatedGenieAsset) => {
   return updatedAssetPriceDifference(x).gt(updatedAssetPriceDifference(y)) ? -1 : 1
 }
 
-export const getTotalNftValue = (nfts: UpdatedGenieAsset[]): BigNumber => {
-  return (
-    nfts &&
-    nfts.reduce(
-      (ethTotal, nft) =>
-        ethTotal.add(BigNumber.from(nft.updatedPriceInfo ? nft.updatedPriceInfo.ETHPrice : nft.priceInfo.ETHPrice)),
-      BigNumber.from(0)
-    )
-  )
-}
-
 export function filterUpdatedAssetsByState(assets: UpdatedGenieAsset[]): {
   unchanged: UpdatedGenieAsset[]
   priceChanged: UpdatedGenieAsset[]

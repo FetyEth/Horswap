@@ -13,7 +13,7 @@ import {
   SquareSudoSwapMarketplaceIcon,
   SquareZoraMarketplaceIcon,
 } from 'nft/components/icons'
-import { DetailsOrigin, GenieAsset, Listing, Markets, UpdatedGenieAsset, WalletAsset } from 'nft/types'
+import { DetailsOrigin, GenieAsset, Listing, Markets, WalletAsset } from 'nft/types'
 import { v4 as uuidv4 } from 'uuid'
 
 export function getRarityStatus(
@@ -79,15 +79,6 @@ export const generateTweetForAsset = (asset: GenieAsset): string => {
   return `https://twitter.com/intent/tweet?text=Check%20out%20${
     asset.name ? encodeURIComponent(asset.name) : `${asset.collectionName}%20%23${asset.tokenId}`
   }%20(${asset.collectionName})%20https://app.uniswap.org/nfts/asset/${asset.address}/${asset.tokenId}%20via%20@uniswap`
-}
-
-export const generateTweetForPurchase = (assets: UpdatedGenieAsset[], txHashUrl: string): string => {
-  const multipleCollections = assets.length > 0 && assets.some((asset) => asset.address !== assets[0].address)
-  const collectionUrl = assets.length > 0 && !multipleCollections ? `collection/${assets[0].address}` : ''
-  const tweetText = `I just purchased ${
-    multipleCollections ? `${assets.length} NFTs` : `${assets.length} ${assets[0].collectionName ?? 'NFT'}`
-  } with @Uniswap 🦄\n\nhttps://app.uniswap.org/nfts/${collectionUrl}\n${txHashUrl}`
-  return `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}`
 }
 
 function getMinListingPrice(listings: Listing[]): number {

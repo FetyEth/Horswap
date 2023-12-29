@@ -22,12 +22,6 @@ export const formatEth = (price: number) => {
   }
 }
 
-export const formatUSDPriceWithCommas = (price: number) => {
-  return `$${Math.round(price)
-    .toString()
-    .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`
-}
-
 export const formatEthPrice = (price: string | undefined) => {
   if (!price) return 0
 
