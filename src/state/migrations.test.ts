@@ -3,7 +3,6 @@ import { persistStore } from 'redux-persist'
 import { createDefaultStore } from 'state'
 
 import { initialState as initialListsState } from './lists/reducer'
-import { initialState as initialSignaturesState } from './signatures/reducer'
 import { initialState as initialTransactionsState } from './transactions/reducer'
 import { initialState as initialUserState } from './user/reducer'
 

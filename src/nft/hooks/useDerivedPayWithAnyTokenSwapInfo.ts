@@ -2,7 +2,7 @@ import { Currency, CurrencyAmount, NativeCurrency, Percent, Token, TradeType } f
 import useAutoSlippageTolerance from 'hooks/useAutoSlippageTolerance'
 import { useDebouncedTrade } from 'hooks/useDebouncedTrade'
 import { useMemo } from 'react'
-import { ClassicTrade, RouterPreference, TradeState } from 'state/routing/types'
+import { ClassicTrade, TradeState } from 'state/routing/types'
 import { isClassicTrade } from 'state/routing/utils'
 
 export default function useDerivedPayWithAnyTokenSwapInfo(
@@ -14,12 +14,7 @@ export default function useDerivedPayWithAnyTokenSwapInfo(
   maximumAmountIn?: CurrencyAmount<Token>
   allowedSlippage: Percent
 } {
-  const { state, trade } = useDebouncedTrade(
-    TradeType.EXACT_OUTPUT,
-    parsedOutputAmount,
-    inputCurrency ?? undefined,
-    RouterPreference.API
-  )
+  const { state, trade } = useDebouncedTrade(TradeType.EXACT_OUTPUT, parsedOutputAmount, inputCurrency ?? undefined)
 
   const allowedSlippage = useAutoSlippageTolerance(isClassicTrade(trade) ? trade : undefined)
   const maximumAmountIn = useMemo(() => {

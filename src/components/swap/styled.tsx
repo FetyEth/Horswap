@@ -4,7 +4,6 @@ import { AlertTriangle } from 'react-feather'
 import styled, { css } from 'styled-components'
 import { Z_INDEX } from 'theme/zIndex'
 
-import { useIsDarkMode } from '../../theme/components/ThemeToggle'
 import { AutoColumn } from '../Column'
 
 export const PageWrapper = styled.div`
@@ -89,23 +88,6 @@ const backUpKeyframes = `@keyframes back-up {
   100% { transform: translateY(-80px); }
 }`
 
-export const UniswapXShine = (props: any) => {
-  const isDarkMode = useIsDarkMode()
-  return <UniswapXShineInner {...props} style={{ opacity: isDarkMode ? 0.15 : 0.05, ...props.style }} />
-}
-
-const UniswapXShineInner = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: -1;
-  pointer-events: none;
-  background: linear-gradient(130deg, transparent 20%, ${({ theme }) => theme.accent1}, transparent 80%);
-  opacity: 0.15;
-`
-
 // overflow hidden to hide the SwapMustacheShadow
 export const SwapOptInSmallContainer = styled.div<{ visible: boolean; shouldAnimate: boolean }>`
   visibility: ${({ visible }) => (visible ? 'visible' : 'hidden')};
@@ -118,25 +100,6 @@ export const SwapOptInSmallContainer = styled.div<{ visible: boolean; shouldAnim
 
   ${springDownKeyframes}
   ${backUpKeyframes}
-`
-
-export const UniswapXOptInLargeContainerPositioner = styled.div`
-  position: absolute;
-  top: 211px;
-  right: ${-320 - 15}px;
-  width: 320px;
-  align-items: center;
-  min-height: 170px;
-  display: flex;
-  pointer-events: none;
-`
-
-export const UniswapXOptInLargeContainer = styled.div<{ visible: boolean }>`
-  opacity: ${({ visible }) => (visible ? 1 : 0)};
-  transform: ${({ visible }) => `translateY(${visible ? 0 : -6}px)`};
-  transition: all ease-in 300ms;
-  transition-delay: ${({ visible }) => (visible ? '350ms' : '0')};
-  pointer-events: ${({ visible }) => (visible ? 'auto' : 'none')};
 `
 
 export const SwapMustache = styled.main`

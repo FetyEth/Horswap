@@ -10,7 +10,6 @@ import { getContract } from 'utils'
 
 import { ApproveInfo, WrapInfo } from './types'
 
-// TODO(UniswapX): add fallback gas limits per chain? l2s have higher costs
 const WRAP_FALLBACK_GAS_LIMIT = 45_000
 const APPROVE_FALLBACK_GAS_LIMIT = 65_000
 

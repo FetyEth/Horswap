@@ -1,4 +1,3 @@
-import { OffchainActivityModal } from 'components/AccountDrawer/MiniPortfolio/Activity/OffchainActivityModal'
 import AirdropModal from 'components/AirdropModal'
 import AddressClaimModal from 'components/claim/AddressClaimModal'
 import { UkDisclaimerModal } from 'components/NavBar/UkDisclaimerModal'

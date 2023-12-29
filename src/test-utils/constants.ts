@@ -5,9 +5,8 @@ import { V3Route } from '@uniswap/smart-order-router'
 import { FeeAmount, Pool } from '@uniswap/v3-sdk'
 import { ZERO_PERCENT } from 'constants/misc'
 import { nativeOnChain } from 'constants/tokens'
-import { BigNumber } from 'ethers/lib/ethers'
 import JSBI from 'jsbi'
-import { ClassicTrade, DutchOrderTrade, PreviewTrade, QuoteMethod } from 'state/routing/types'
+import { ClassicTrade, PreviewTrade, QuoteMethod } from 'state/routing/types'
 
 export const TEST_TOKEN_1 = new Token(1, '0x0000000000000000000000000000000000000001', 18, 'ABC', 'Abc')
 export const TEST_TOKEN_2 = new Token(1, '0x0000000000000000000000000000000000000002', 18, 'DEF', 'Def')
@@ -87,45 +86,6 @@ export const TEST_TRADE_EXACT_OUTPUT = new ClassicTrade({
 })
 
 export const TEST_ALLOWED_SLIPPAGE = new Percent(2, 100)
-
-export const TEST_DUTCH_TRADE_ETH_INPUT = new DutchOrderTrade({
-  currencyIn: ETH_MAINNET.wrapped,
-  currenciesOut: [TEST_TOKEN_2],
-  orderInfo: {
-    reactor: 'test_reactor',
-    swapper: 'test_offerer',
-    nonce: BigNumber.from(1),
-    deadline: 1000,
-    decayStartTime: 0,
-    decayEndTime: 10,
-    additionalValidationContract: '0x0',
-    additionalValidationData: '0x0',
-    exclusiveFiller: '0x3456',
-    exclusivityOverrideBps: BigNumber.from(0),
-    input: {
-      token: ETH_MAINNET.wrapped.address,
-      startAmount: BigNumber.from(1000),
-      endAmount: BigNumber.from(900),
-    },
-    outputs: [
-      {
-        token: TEST_TOKEN_2.address,
-        startAmount: BigNumber.from(1000),
-        endAmount: BigNumber.from(900),
-        recipient: '0x0',
-      },
-    ],
-  },
-  tradeType: TradeType.EXACT_INPUT,
-  quoteId: '0x0000000',
-  wrapInfo: { needsWrap: false },
-  approveInfo: { needsApprove: false },
-  classicGasUseEstimateUSD: 7.87,
-  auctionPeriodSecs: 120,
-  deadlineBufferSecs: 30,
-  startTimeBufferSecs: 30,
-  slippageTolerance: new Percent(5, 100),
-})
 
 export const TEST_TRADE_FEE_ON_SELL = new ClassicTrade({
   v3Routes: [

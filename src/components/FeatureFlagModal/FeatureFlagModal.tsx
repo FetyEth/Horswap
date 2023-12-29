@@ -10,10 +10,6 @@ import { useInfoTDPFlag } from 'featureFlags/flags/infoTDP'
 import { useMultichainUXFlag } from 'featureFlags/flags/multichainUx'
 import { useQuickRouteMainnetFlag } from 'featureFlags/flags/quickRouteMainnet'
 import { TraceJsonRpcVariant, useTraceJsonRpcFlag } from 'featureFlags/flags/traceJsonRpc'
-import { useUniswapXDefaultEnabledFlag } from 'featureFlags/flags/uniswapXDefault'
-import { useUniswapXEthOutputFlag } from 'featureFlags/flags/uniswapXEthOutput'
-import { useUniswapXExactOutputFlag } from 'featureFlags/flags/uniswapXExactOutput'
-import { useUniswapXSyntheticQuoteFlag } from 'featureFlags/flags/uniswapXUseSyntheticQuote'
 import { useUpdateAtom } from 'jotai/utils'
 import { Children, PropsWithChildren, ReactElement, ReactNode, useCallback, useState } from 'react'
 import { X } from 'react-feather'
@@ -261,32 +257,6 @@ export default function FeatureFlagModal() {
             value={useQuickRouteMainnetFlag()}
             featureFlag={FeatureFlag.quickRouteMainnet}
             label="Enable quick routes for Mainnet"
-          />
-        </FeatureFlagGroup>
-        <FeatureFlagGroup name="UniswapX Flags">
-          <FeatureFlagOption
-            variant={BaseVariant}
-            value={useUniswapXSyntheticQuoteFlag()}
-            featureFlag={FeatureFlag.uniswapXSyntheticQuote}
-            label="Force synthetic quotes for UniswapX"
-          />
-          <FeatureFlagOption
-            variant={BaseVariant}
-            value={useUniswapXEthOutputFlag()}
-            featureFlag={FeatureFlag.uniswapXEthOutputEnabled}
-            label="Enable eth output for UniswapX orders"
-          />
-          <FeatureFlagOption
-            variant={BaseVariant}
-            value={useUniswapXExactOutputFlag()}
-            featureFlag={FeatureFlag.uniswapXExactOutputEnabled}
-            label="Enable exact output for UniswapX orders"
-          />
-          <FeatureFlagOption
-            variant={BaseVariant}
-            value={useUniswapXDefaultEnabledFlag()}
-            featureFlag={FeatureFlag.uniswapXDefaultEnabled}
-            label="Enable UniswapX by default"
           />
         </FeatureFlagGroup>
         <FeatureFlagGroup name="Info Site Migration">

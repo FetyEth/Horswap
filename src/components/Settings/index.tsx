@@ -15,14 +15,12 @@ import { X } from 'react-feather'
 import { useCloseModal, useModalIsOpen, useToggleSettingsMenu } from 'state/application/hooks'
 import { ApplicationModal } from 'state/application/reducer'
 import { InterfaceTrade } from 'state/routing/types'
-import { isUniswapXTrade } from 'state/routing/utils'
 import styled from 'styled-components'
 import { Divider, ThemedText } from 'theme/components'
 import { Z_INDEX } from 'theme/zIndex'
 
 import MaxSlippageSettings from './MaxSlippageSettings'
 import MenuButton from './MenuButton'
-import RouterPreferenceSettings from './RouterPreferenceSettings'
 import TransactionDeadlineSettings from './TransactionDeadlineSettings'
 
 const CloseButton = styled.button`
@@ -128,12 +126,7 @@ export default function SettingsTab({
   const Settings = useMemo(
     () => (
       <>
-        {showRoutingSettings && (
-          <AutoColumn gap="16px">
-            <RouterPreferenceSettings />
-          </AutoColumn>
-        )}
-        <AnimatedDropdown open={!isUniswapXTrade(trade)}>
+        <AnimatedDropdown open={true}>
           <ExpandColumn $padTop={showRoutingSettings}>
             {showRoutingSettings && <Divider />}
             <MaxSlippageSettings autoSlippage={autoSlippage} />

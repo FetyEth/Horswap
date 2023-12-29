@@ -14,10 +14,6 @@ export type PopupContent =
       hash: string
     }
   | {
-      type: PopupType.Order
-      orderHash: string
-    }
-  | {
       type: PopupType.FailedSwitchNetwork
       failedSwitchNetwork: ChainId
     }

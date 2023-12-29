@@ -1,7 +1,5 @@
 import { ChainId } from '@uniswap/sdk-core'
 import { TokenList } from '@uniswap/token-lists'
-import { ConnectionType } from 'connection/types'
-import { SupportedLocale } from 'constants/locales'
 import multicall from 'lib/state/multicall'
 import { CombinedState } from 'redux'
 import { assert, Equals } from 'tsafe'
@@ -20,12 +18,9 @@ import { FullRange, MintState as MintV3State } from './mint/v3/reducer'
 import { AppState } from './reducer'
 import { quickRouteApi } from './routing/quickRouteSlice'
 import { routingApi } from './routing/slice'
-import { RouterPreference } from './routing/types'
-import { SignatureState } from './signatures/reducer'
 import { TransactionState } from './transactions/reducer'
 import { TransactionDetails } from './transactions/types'
 import { UserState } from './user/reducer'
-import { SerializedPair, SerializedToken, SlippageTolerance } from './user/types'
 import { WalletState } from './wallets/reducer'
 import { Wallet } from './wallets/types'
 
@@ -51,7 +46,6 @@ import { Wallet } from './wallets/types'
 type ExpectedAppState = CombinedState<{
   user: UserState
   transactions: TransactionState
-  signatures: SignatureState
   lists: ListsState
   application: ApplicationState
   wallets: WalletState
@@ -66,35 +60,6 @@ type ExpectedAppState = CombinedState<{
 }>
 
 assert<Equals<AppState, ExpectedAppState>>()
-
-interface ExpectedUserState {
-  selectedWallet?: ConnectionType
-  lastUpdateVersionTimestamp?: number
-  userLocale: SupportedLocale | null
-  userRouterPreference: RouterPreference
-  userHideClosedPositions: boolean
-  userSlippageTolerance: number | SlippageTolerance.Auto
-  userSlippageToleranceHasBeenMigratedToAuto: boolean
-  userDeadline: number
-  tokens: {
-    [chainId: number]: {
-      [address: string]: SerializedToken
-    }
-  }
-  pairs: {
-    [chainId: number]: {
-      [key: string]: SerializedPair
-    }
-  }
-  timestamp: number
-  hideBaseWalletBanner: boolean
-  showSurveyPopup?: boolean
-  disabledUniswapX?: boolean
-  optedOutOfUniswapX?: boolean
-  originCountry?: string
-}
-
-assert<Equals<UserState, ExpectedUserState>>()
 
 interface ExpectedTransactionState {
   [chainId: number]: {

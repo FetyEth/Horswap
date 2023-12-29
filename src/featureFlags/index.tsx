@@ -9,9 +9,6 @@ export enum FeatureFlag {
   traceJsonRpc = 'traceJsonRpc',
   debounceSwapQuote = 'debounce_swap_quote',
   fallbackProvider = 'fallback_provider',
-  uniswapXSyntheticQuote = 'uniswapx_synthetic_quote',
-  uniswapXEthOutputEnabled = 'uniswapx_eth_output_enabled',
-  uniswapXExactOutputEnabled = 'uniswapx_exact_output_enabled',
   multichainUX = 'multichain_ux',
   currencyConversion = 'currency_conversion',
   fotAdjustedmentsEnabled = 'fot_dynamic_adjustments_enabled',
@@ -19,7 +16,6 @@ export enum FeatureFlag {
   infoTDP = 'info_tdp',
   infoPoolPage = 'info_pool_page',
   infoLiveViews = 'info_live_views',
-  uniswapXDefaultEnabled = 'uniswapx_default_enabled',
   quickRouteMainnet = 'enable_quick_route_mainnet',
 }
 

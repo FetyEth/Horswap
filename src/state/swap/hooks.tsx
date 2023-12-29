@@ -12,7 +12,7 @@ import { ReactNode, useCallback, useEffect, useMemo } from 'react'
 import { AnyAction } from 'redux'
 import { useAppDispatch } from 'state/hooks'
 import { InterfaceTrade, TradeState } from 'state/routing/types'
-import { isClassicTrade, isUniswapXTrade } from 'state/routing/utils'
+import { isClassicTrade } from 'state/routing/utils'
 import { useUserSlippageToleranceWithDefault } from 'state/user/hooks'
 
 import { TOKEN_SHORTHANDS } from '../../constants/tokens'
@@ -87,7 +87,6 @@ export type SwapInfo = {
   trade: {
     trade?: InterfaceTrade
     state: TradeState
-    uniswapXGasUseEstimateUSD?: number
     error?: any
     swapQuoteLatency?: number
   }
@@ -134,7 +133,6 @@ export function useDerivedSwapInfo(state: SwapState, chainId: ChainId | undefine
     isExactIn ? TradeType.EXACT_INPUT : TradeType.EXACT_OUTPUT,
     parsedAmount,
     (isExactIn ? outputCurrency : inputCurrency) ?? undefined,
-    undefined,
     account,
     inputTax,
     outputTax
@@ -159,15 +157,12 @@ export function useDerivedSwapInfo(state: SwapState, chainId: ChainId | undefine
   // allowed slippage for classic trades is either auto slippage, or custom user defined slippage if auto slippage disabled
   const classicAutoSlippage = useAutoSlippageTolerance(isClassicTrade(trade.trade) ? trade.trade : undefined)
 
-  // slippage for uniswapx trades is defined by the quote response
-  const uniswapXAutoSlippage = isUniswapXTrade(trade.trade) ? trade.trade.slippageTolerance : undefined
-
   // Uniswap interface recommended slippage amount
-  const autoSlippage = uniswapXAutoSlippage ?? classicAutoSlippage
+  const autoSlippage = classicAutoSlippage
   const classicAllowedSlippage = useUserSlippageToleranceWithDefault(autoSlippage)
 
   // slippage amount used to submit the trade
-  const allowedSlippage = uniswapXAutoSlippage ?? classicAllowedSlippage
+  const allowedSlippage = classicAllowedSlippage
 
   const connectionReady = useConnectionReady()
   const inputError = useMemo(() => {

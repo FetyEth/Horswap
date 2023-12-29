@@ -3,19 +3,10 @@ import { Currency, CurrencyAmount, Percent, TradeType } from '@uniswap/sdk-core'
 import { AVERAGE_L1_BLOCK_TIME } from 'constants/chainInfo'
 import { ZERO_PERCENT } from 'constants/misc'
 import { useRoutingAPIArguments } from 'lib/hooks/routing/useRoutingAPIArguments'
-import ms from 'ms'
 import { useMemo } from 'react'
 
 import { useGetQuoteQuery, useGetQuoteQueryState } from './slice'
-import {
-  ClassicTrade,
-  INTERNAL_ROUTER_PREFERENCE_PRICE,
-  QuoteMethod,
-  QuoteState,
-  RouterPreference,
-  SubmittableTrade,
-  TradeState,
-} from './types'
+import { ClassicTrade, QuoteMethod, QuoteState, SubmittableTrade, TradeState } from './types'
 
 const TRADE_NOT_FOUND = { state: TradeState.NO_ROUTE_FOUND, trade: undefined, currentData: undefined } as const
 const TRADE_LOADING = { state: TradeState.LOADING, trade: undefined, currentData: undefined } as const
@@ -25,7 +16,6 @@ export function useRoutingAPITrade<TTradeType extends TradeType>(
   tradeType: TTradeType,
   amountSpecified: CurrencyAmount<Currency> | undefined,
   otherCurrency: Currency | undefined,
-  routerPreference: typeof INTERNAL_ROUTER_PREFERENCE_PRICE,
   account?: string,
   inputTax?: Percent,
   outputTax?: Percent
@@ -41,7 +31,6 @@ export function useRoutingAPITrade<TTradeType extends TradeType>(
   tradeType: TTradeType,
   amountSpecified: CurrencyAmount<Currency> | undefined,
   otherCurrency: Currency | undefined,
-  routerPreference: RouterPreference,
   account?: string,
   inputTax?: Percent,
   outputTax?: Percent
@@ -63,7 +52,6 @@ export function useRoutingAPITrade<TTradeType extends TradeType>(
   tradeType: TTradeType,
   amountSpecified: CurrencyAmount<Currency> | undefined,
   otherCurrency: Currency | undefined,
-  routerPreference: RouterPreference | typeof INTERNAL_ROUTER_PREFERENCE_PRICE,
   account?: string,
   inputTax = ZERO_PERCENT,
   outputTax = ZERO_PERCENT
@@ -88,7 +76,6 @@ export function useRoutingAPITrade<TTradeType extends TradeType>(
     tokenOut: currencyOut,
     amount: amountSpecified,
     tradeType,
-    routerPreference,
     inputTax,
     outputTax,
   })
@@ -96,7 +83,7 @@ export function useRoutingAPITrade<TTradeType extends TradeType>(
   const { isError, data: tradeResult, error, currentData } = useGetQuoteQueryState(queryArgs)
   useGetQuoteQuery(skipFetch ? skipToken : queryArgs, {
     // Price-fetching is informational and costly, so it's done less frequently.
-    pollingInterval: routerPreference === INTERNAL_ROUTER_PREFERENCE_PRICE ? ms(`1m`) : AVERAGE_L1_BLOCK_TIME,
+    pollingInterval: AVERAGE_L1_BLOCK_TIME,
     // If latest quote from cache was fetched > 2m ago, instantly repoll for another instead of waiting for next poll period
     refetchOnMountOrArgChange: 2 * 60,
   })

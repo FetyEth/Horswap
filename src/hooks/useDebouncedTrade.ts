@@ -3,10 +3,9 @@ import { useWeb3React } from '@web3-react/core'
 import { WRAPPED_NATIVE_CURRENCY } from 'constants/tokens'
 import { DebounceSwapQuoteVariant, useDebounceSwapQuoteFlag } from 'featureFlags/flags/debounceSwapQuote'
 import { useMemo } from 'react'
-import { ClassicTrade, InterfaceTrade, QuoteMethod, RouterPreference, TradeState } from 'state/routing/types'
+import { ClassicTrade, InterfaceTrade, QuoteMethod, TradeState } from 'state/routing/types'
 import { usePreviewTrade } from 'state/routing/usePreviewTrade'
 import { useRoutingAPITrade } from 'state/routing/useRoutingAPITrade'
-import { useRouterPreference } from 'state/user/hooks'
 
 import useAutoRouterSupported from './useAutoRouterSupported'
 import useDebounce from './useDebounce'
@@ -23,7 +22,6 @@ export function useDebouncedTrade(
   tradeType: TradeType,
   amountSpecified?: CurrencyAmount<Currency>,
   otherCurrency?: Currency,
-  routerPreferenceOverride?: RouterPreference.X,
   account?: string,
   inputTax?: Percent,
   outputTax?: Percent
@@ -37,7 +35,6 @@ export function useDebouncedTrade(
   tradeType: TradeType,
   amountSpecified?: CurrencyAmount<Currency>,
   otherCurrency?: Currency,
-  routerPreferenceOverride?: RouterPreference.API | RouterPreference.CLIENT,
   account?: string,
   inputTax?: Percent,
   outputTax?: Percent
@@ -59,7 +56,6 @@ export function useDebouncedTrade(
   tradeType: TradeType,
   amountSpecified?: CurrencyAmount<Currency>,
   otherCurrency?: Currency,
-  routerPreferenceOverride?: RouterPreference,
   account?: string,
   inputTax?: Percent,
   outputTax?: Percent
@@ -92,13 +88,10 @@ export function useDebouncedTrade(
     )
   }, [amountSpecified, chainId, otherCurrency])
 
-  const [routerPreference] = useRouterPreference()
-
   const skipBothFetches = !autoRouterSupported || !isWindowVisible || isWrap
   const skipRoutingFetch = skipBothFetches || isDebouncing
 
-  const skipPreviewTradeFetch =
-    skipBothFetches || routerPreference === RouterPreference.CLIENT || isPreviewTradeDebouncing
+  const skipPreviewTradeFetch = skipBothFetches || isPreviewTradeDebouncing
 
   const previewTradeResult = usePreviewTrade(
     skipPreviewTradeFetch,
@@ -113,7 +106,6 @@ export function useDebouncedTrade(
     tradeType,
     amountSpecified,
     otherCurrency,
-    routerPreferenceOverride ?? routerPreference,
     account,
     inputTax,
     outputTax

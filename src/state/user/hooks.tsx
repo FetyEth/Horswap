@@ -7,7 +7,6 @@ import { L2_DEADLINE_FROM_NOW } from 'constants/misc'
 import JSBI from 'jsbi'
 import { useCallback, useMemo } from 'react'
 import { useAppDispatch, useAppSelector } from 'state/hooks'
-import { RouterPreference } from 'state/routing/types'
 import { UserAddedToken } from 'types/tokens'
 
 import { BASES_TO_TRACK_LIQUIDITY_FOR, PINNED_PAIRS } from '../../constants/routing'
@@ -19,7 +18,6 @@ import {
   updateHideClosedPositions,
   updateUserDeadline,
   updateUserLocale,
-  updateUserRouterPreference,
   updateUserSlippageTolerance,
 } from './reducer'
 import { SerializedPair, SerializedToken, SlippageTolerance } from './types'
@@ -60,21 +58,6 @@ export function useUserLocaleManager(): [SupportedLocale | null, (newLocale: Sup
   )
 
   return [locale, setLocale]
-}
-
-export function useRouterPreference(): [RouterPreference, (routerPreference: RouterPreference) => void] {
-  const dispatch = useAppDispatch()
-
-  const routerPreference = useAppSelector((state) => state.user.userRouterPreference)
-
-  const setRouterPreference = useCallback(
-    (newRouterPreference: RouterPreference) => {
-      dispatch(updateUserRouterPreference({ userRouterPreference: newRouterPreference }))
-    },
-    [dispatch]
-  )
-
-  return [routerPreference, setRouterPreference]
 }
 
 /**
@@ -215,14 +198,6 @@ export function useHideBaseWalletBanner(): [boolean, () => void] {
   }, [dispatch])
 
   return [hideBaseWalletBanner, toggleHideBaseWalletBanner]
-}
-
-export function useUserDisabledUniswapX(): boolean {
-  return useAppSelector((state) => state.user.disabledUniswapX) ?? false
-}
-
-export function useUserOptedOutOfUniswapX(): boolean {
-  return useAppSelector((state) => state.user.optedOutOfUniswapX) ?? false
 }
 
 /**

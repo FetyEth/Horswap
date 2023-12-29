@@ -1,9 +1,7 @@
 import { MixedRouteSDK, ONE, Protocol, Trade } from '@uniswap/router-sdk'
 import { ChainId, Currency, CurrencyAmount, Fraction, Percent, Price, Token, TradeType } from '@uniswap/sdk-core'
-import { DutchOrderInfo, DutchOrderInfoJSON, DutchOrderTrade as IDutchOrderTrade } from '@uniswap/uniswapx-sdk'
 import { Route as V2Route } from '@uniswap/v2-sdk'
 import { Route as V3Route } from '@uniswap/v3-sdk'
-import { ZERO_PERCENT } from 'constants/misc'
 
 export enum TradeState {
   LOADING = 'loading',
@@ -24,12 +22,6 @@ export enum QuoteMethod {
 // internally for token -> USDC trades to get a USD value.
 export const INTERNAL_ROUTER_PREFERENCE_PRICE = 'price' as const
 
-export enum RouterPreference {
-  X = 'uniswapx',
-  API = 'api',
-  CLIENT = 'client',
-}
-
 export interface GetQuoteArgs {
   tokenInAddress: string
   tokenInChainId: ChainId
@@ -41,17 +33,7 @@ export interface GetQuoteArgs {
   tokenOutSymbol?: string
   amount: string
   account?: string
-  routerPreference: RouterPreference | typeof INTERNAL_ROUTER_PREFERENCE_PRICE
   tradeType: TradeType
-  needsWrapIfUniswapX: boolean
-  uniswapXForceSyntheticQuotes: boolean
-  uniswapXEthOutputEnabled: boolean
-  uniswapXExactOutputEnabled: boolean
-  // legacy field indicating the user disabled UniswapX during the opt-in period, or dismissed the UniswapX opt-in modal.
-  userDisabledUniswapX: boolean
-  // temporary field indicating the user disabled UniswapX during the transition to the opt-out model
-  userOptedOutOfUniswapX: boolean
-  isUniswapXDefaultEnabled: boolean
   inputTax: Percent
   outputTax: Percent
 }
@@ -128,25 +110,12 @@ export interface ClassicQuoteData {
   routeString: string
 }
 
-type URADutchOrderQuoteResponse = {
-  routing: URAQuoteType.DUTCH_LIMIT
-  quote: {
-    auctionPeriodSecs: number
-    deadlineBufferSecs: number
-    startTimeBufferSecs: number
-    orderInfo: DutchOrderInfoJSON
-    quoteId?: string
-    requestId?: string
-    slippageTolerance: string
-  }
-  allQuotes: Array<URAQuoteResponse>
-}
 type URAClassicQuoteResponse = {
   routing: URAQuoteType.CLASSIC
   quote: ClassicQuoteData
   allQuotes: Array<URAQuoteResponse>
 }
-export type URAQuoteResponse = URAClassicQuoteResponse | URADutchOrderQuoteResponse
+export type URAQuoteResponse = URAClassicQuoteResponse
 
 export type QuickRouteResponse = {
   tokenIn: {
@@ -174,7 +143,6 @@ export function isClassicQuoteResponse(data: URAQuoteResponse): data is URAClass
 
 export enum TradeFillType {
   Classic = 'classic', // Uniswap V1, V2, and V3 trades with on-chain routes
-  UniswapX = 'uniswap_x', // off-chain trades, no routes
   None = 'none', // for preview trades, cant be used for submission
 }
 
@@ -186,7 +154,6 @@ export class ClassicTrade extends Trade<Currency, Currency, TradeType> {
   approveInfo: ApproveInfo
   gasUseEstimateUSD?: number // gas estimate for swaps
   blockNumber: string | null | undefined
-  isUniswapXBetter: boolean | undefined
   requestId: string | undefined
   quoteMethod: QuoteMethod
   inputTax: Percent
@@ -195,7 +162,6 @@ export class ClassicTrade extends Trade<Currency, Currency, TradeType> {
   constructor({
     gasUseEstimateUSD,
     blockNumber,
-    isUniswapXBetter,
     requestId,
     quoteMethod,
     approveInfo,
@@ -206,7 +172,6 @@ export class ClassicTrade extends Trade<Currency, Currency, TradeType> {
     gasUseEstimateUSD?: number
     totalGasUseEstimateUSD?: number
     blockNumber?: string | null
-    isUniswapXBetter?: boolean
     requestId?: string
     quoteMethod: QuoteMethod
     approveInfo: ApproveInfo
@@ -232,7 +197,6 @@ export class ClassicTrade extends Trade<Currency, Currency, TradeType> {
     super(routes)
     this.blockNumber = blockNumber
     this.gasUseEstimateUSD = gasUseEstimateUSD
-    this.isUniswapXBetter = isUniswapXBetter
     this.requestId = requestId
     this.quoteMethod = quoteMethod
     this.approveInfo = approveInfo
@@ -265,80 +229,6 @@ export class ClassicTrade extends Trade<Currency, Currency, TradeType> {
     }
 
     return this.gasUseEstimateUSD
-  }
-}
-
-export class DutchOrderTrade extends IDutchOrderTrade<Currency, Currency, TradeType> {
-  public readonly fillType = TradeFillType.UniswapX
-  quoteId?: string
-  requestId?: string
-  wrapInfo: WrapInfo
-  approveInfo: ApproveInfo
-  // The gas estimate of the reference classic trade, if there is one.
-  classicGasUseEstimateUSD?: number
-  auctionPeriodSecs: number
-  startTimeBufferSecs: number
-  deadlineBufferSecs: number
-  slippageTolerance: Percent
-
-  inputTax = ZERO_PERCENT
-  outputTax = ZERO_PERCENT
-
-  constructor({
-    currencyIn,
-    currenciesOut,
-    orderInfo,
-    tradeType,
-    quoteId,
-    requestId,
-    wrapInfo,
-    approveInfo,
-    classicGasUseEstimateUSD,
-    auctionPeriodSecs,
-    startTimeBufferSecs,
-    deadlineBufferSecs,
-    slippageTolerance,
-  }: {
-    currencyIn: Currency
-    currenciesOut: Currency[]
-    orderInfo: DutchOrderInfo
-    tradeType: TradeType
-    quoteId?: string
-    requestId?: string
-    approveInfo: ApproveInfo
-    wrapInfo: WrapInfo
-    classicGasUseEstimateUSD?: number
-    auctionPeriodSecs: number
-    startTimeBufferSecs: number
-    deadlineBufferSecs: number
-    slippageTolerance: Percent
-  }) {
-    super({ currencyIn, currenciesOut, orderInfo, tradeType })
-    this.quoteId = quoteId
-    this.requestId = requestId
-    this.approveInfo = approveInfo
-    this.wrapInfo = wrapInfo
-    this.classicGasUseEstimateUSD = classicGasUseEstimateUSD
-    this.auctionPeriodSecs = auctionPeriodSecs
-    this.deadlineBufferSecs = deadlineBufferSecs
-    this.slippageTolerance = slippageTolerance
-    this.startTimeBufferSecs = startTimeBufferSecs
-  }
-
-  public get totalGasUseEstimateUSD(): number {
-    if (this.wrapInfo.needsWrap && this.approveInfo.needsApprove) {
-      return this.wrapInfo.wrapGasEstimateUSD + this.approveInfo.approveGasEstimateUSD
-    }
-
-    if (this.wrapInfo.needsWrap) return this.wrapInfo.wrapGasEstimateUSD
-    if (this.approveInfo.needsApprove) return this.approveInfo.approveGasEstimateUSD
-
-    return 0
-  }
-
-  /** For UniswapX, handling token taxes in the output amount is outsourced to quoters */
-  public get postTaxOutputAmount() {
-    return this.outputAmount
   }
 }
 
@@ -431,8 +321,8 @@ export class PreviewTrade {
   }
 }
 
-export type SubmittableTrade = ClassicTrade | DutchOrderTrade
-export type InterfaceTrade = SubmittableTrade | PreviewTrade
+export type SubmittableTrade = ClassicTrade
+export type InterfaceTrade = ClassicTrade | PreviewTrade
 
 export enum QuoteState {
   SUCCESS = 'Success',
@@ -497,11 +387,4 @@ type ClassicAPIConfig = {
   protocols: Protocol[]
 }
 
-type UniswapXConfig = {
-  swapper?: string
-  exclusivityOverrideBps?: number
-  auctionPeriodSecs?: number
-  startTimeBufferSecs?: number
-}
-
-export type RoutingConfig = (UniswapXConfig | ClassicAPIConfig)[]
+export type RoutingConfig = ClassicAPIConfig[]
