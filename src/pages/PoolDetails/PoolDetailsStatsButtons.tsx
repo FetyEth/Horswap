@@ -1,7 +1,5 @@
 import { Trans } from '@lingui/macro'
 import { useWeb3React } from '@web3-react/core'
-import { PositionInfo } from 'components/AccountDrawer/MiniPortfolio/Pools/cache'
-import useMultiChainPositions from 'components/AccountDrawer/MiniPortfolio/Pools/useMultiChainPositions'
 import { ButtonEmphasis, ButtonSize, ThemeButton } from 'components/Button'
 import Row from 'components/Row'
 import { Token } from 'graphql/thegraph/__generated__/types-and-hooks'

@@ -4,11 +4,9 @@ import { ChainId, Currency, CurrencyAmount, TradeType } from '@uniswap/sdk-core'
 import UniswapXBolt from 'assets/svg/bolt.svg'
 import { nativeOnChain } from 'constants/tokens'
 import { TransactionStatus } from 'graphql/data/__generated__/types-and-hooks'
-import { ChainTokenMap, useAllTokensMultichain } from 'hooks/Tokens'
-import { useMemo } from 'react'
-import { isOnChainOrder, useAllSignatures } from 'state/signatures/hooks'
+import { ChainTokenMap } from 'hooks/Tokens'
+import { isOnChainOrder } from 'state/signatures/hooks'
 import { SignatureDetails, SignatureType } from 'state/signatures/types'
-import { useMultichainTransactions } from 'state/transactions/hooks'
 import {
   AddLiquidityV2PoolTransactionInfo,
   AddLiquidityV3PoolTransactionInfo,
@@ -26,7 +24,7 @@ import {
 import { NumberType, useFormatter } from 'utils/formatNumbers'
 
 import { CancelledTransactionTitleTable, getActivityTitle, OrderTextTable } from '../constants'
-import { Activity, ActivityMap } from './types'
+import { Activity } from './types'
 
 type FormatNumberFunctionType = ReturnType<typeof useFormatter>['formatNumber']
 
@@ -264,30 +262,4 @@ export function signatureToActivity(
     default:
       return undefined
   }
-}
-
-export function useLocalActivities(account: string): ActivityMap {
-  const allTransactions = useMultichainTransactions()
-  const allSignatures = useAllSignatures()
-  const tokens = useAllTokensMultichain()
-  const { formatNumber } = useFormatter()
-
-  return useMemo(() => {
-    const activityMap: ActivityMap = {}
-    for (const [transaction, chainId] of allTransactions) {
-      if (transaction.from !== account) continue
-
-      const activity = transactionToActivity(transaction, chainId, tokens, formatNumber)
-      if (activity) activityMap[transaction.hash] = activity
-    }
-
-    for (const signature of Object.values(allSignatures)) {
-      if (signature.offerer !== account) continue
-
-      const activity = signatureToActivity(signature, tokens, formatNumber)
-      if (activity) activityMap[signature.id] = activity
-    }
-
-    return activityMap
-  }, [account, allSignatures, allTransactions, formatNumber, tokens])
 }

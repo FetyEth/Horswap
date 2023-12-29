@@ -1,12 +1,8 @@
 import userEvent from '@testing-library/user-event'
-import useMultiChainPositions from 'components/AccountDrawer/MiniPortfolio/Pools/useMultiChainPositions'
-import { mocked } from 'test-utils/mocked'
-import { useMultiChainPositionsReturnValue, validPoolToken0, validPoolToken1 } from 'test-utils/pools/fixtures'
+import { validPoolToken0, validPoolToken1 } from 'test-utils/pools/fixtures'
 import { act, render, screen } from 'test-utils/render'
 
 import { PoolDetailsStatsButtons } from './PoolDetailsStatsButtons'
-
-jest.mock('components/AccountDrawer/MiniPortfolio/Pools/useMultiChainPositions')
 
 describe('PoolDetailsStatsButton', () => {
   const mockProps = {
@@ -21,10 +17,6 @@ describe('PoolDetailsStatsButton', () => {
     token0: validPoolToken1,
     token1: validPoolToken0,
   }
-
-  beforeEach(() => {
-    mocked(useMultiChainPositions).mockReturnValue(useMultiChainPositionsReturnValue)
-  })
 
   it('renders both buttons correctly', () => {
     const { asFragment } = render(<PoolDetailsStatsButtons {...mockProps} />)

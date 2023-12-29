@@ -1,10 +1,7 @@
 import { t } from '@lingui/macro'
-import { SwapOrderStatus, TransactionStatus } from 'graphql/data/__generated__/types-and-hooks'
+import { TransactionStatus } from 'graphql/data/__generated__/types-and-hooks'
 import { UniswapXOrderStatus } from 'lib/hooks/orders/types'
 import { TransactionType } from 'state/transactions/types'
-
-// use even number because rows are in groups of 2
-export const DEFAULT_NFT_QUERY_AMOUNT = 26
 
 const TransactionTitleTable: { [key in TransactionType]: { [state in TransactionStatus]: string } } = {
   [TransactionType.SWAP]: {
@@ -219,12 +216,4 @@ export const OrderTextTable: {
     title: t`Swap cancelled`,
     status: TransactionStatus.Failed,
   },
-}
-
-// Converts GQL backend orderStatus enum to the enum used by the frontend and UniswapX backend
-export const OrderStatusTable: { [key in SwapOrderStatus]: UniswapXOrderStatus } = {
-  [SwapOrderStatus.Open]: UniswapXOrderStatus.OPEN,
-  [SwapOrderStatus.Expired]: UniswapXOrderStatus.EXPIRED,
-  [SwapOrderStatus.Error]: UniswapXOrderStatus.ERROR,
-  [SwapOrderStatus.InsufficientFunds]: UniswapXOrderStatus.INSUFFICIENT_FUNDS,
 }
