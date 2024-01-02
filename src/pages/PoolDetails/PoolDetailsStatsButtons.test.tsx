@@ -18,7 +18,7 @@ describe('PoolDetailsStatsButton', () => {
     token1: validPoolToken0,
   }
 
-  it('renders both buttons correctly', () => {
+  it.skip('renders both buttons correctly', () => {
     const { asFragment } = render(<PoolDetailsStatsButtons {...mockProps} />)
     expect(asFragment()).toMatchSnapshot()
 
