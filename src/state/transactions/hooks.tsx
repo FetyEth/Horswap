@@ -1,6 +1,6 @@
 import { BigNumber } from '@ethersproject/bignumber'
 import type { TransactionResponse } from '@ethersproject/providers'
-import { ChainId, SUPPORTED_CHAINS, Token } from '@uniswap/sdk-core'
+import { Token } from '@uniswap/sdk-core'
 import { useWeb3React } from '@web3-react/core'
 import { getTransactionStatus } from 'components/AccountDrawer/MiniPortfolio/Activity/parseLocal'
 import { TransactionStatus } from 'graphql/data/__generated__/types-and-hooks'
@@ -59,13 +59,6 @@ export function useTransactionCanceller() {
       dispatch(cancelTransaction({ hash, chainId, cancelHash }))
     },
     [dispatch]
-  )
-}
-
-export function useMultichainTransactions(): [TransactionDetails, ChainId][] {
-  const state = useAppSelector((state) => state.transactions)
-  return SUPPORTED_CHAINS.flatMap((chainId) =>
-    state[chainId] ? Object.values(state[chainId]).map((tx): [TransactionDetails, ChainId] => [tx, chainId]) : []
   )
 }
 

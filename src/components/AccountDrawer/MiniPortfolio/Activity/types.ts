@@ -20,5 +20,3 @@ export type Activity = {
   prefixIconSrc?: string
   cancelled?: boolean
 }
-
-export type ActivityMap = { [id: string]: Activity | undefined }
