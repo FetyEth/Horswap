@@ -243,8 +243,6 @@ export default function ConfirmSwapModal({
   onCurrencySelection,
   swapError,
   swapResult,
-  fiatValueInput,
-  fiatValueOutput,
 }: {
   trade: InterfaceTrade
   inputCurrency?: Currency
@@ -258,8 +256,6 @@ export default function ConfirmSwapModal({
   swapError?: Error
   onDismiss: () => void
   onCurrencySelection: (field: Field, currency: Currency) => void
-  fiatValueInput: { data?: number; isLoading: boolean }
-  fiatValueOutput: { data?: number; isLoading: boolean }
 }) {
   const { chainId } = useWeb3React()
   const doesTradeDiffer = originalTrade && tradeMeaningfullyDiffers(trade, originalTrade, allowedSlippage)
@@ -327,8 +323,6 @@ export default function ConfirmSwapModal({
           allowedSlippage={allowedSlippage}
           isLoading={isPreviewTrade(trade)}
           disabledConfirm={showAcceptChanges || isPreviewTrade(trade) || allowance.state === AllowanceState.LOADING}
-          fiatValueInput={fiatValueInput}
-          fiatValueOutput={fiatValueOutput}
           showAcceptChanges={showAcceptChanges}
           onAcceptChanges={onAcceptChanges}
           swapErrorMessage={swapFailed ? swapError?.message : undefined}
@@ -360,8 +354,6 @@ export default function ConfirmSwapModal({
     swapError,
     startSwapFlow,
     allowedSlippage,
-    fiatValueInput,
-    fiatValueOutput,
     onAcceptChanges,
     swapFailed,
     onConfirm,

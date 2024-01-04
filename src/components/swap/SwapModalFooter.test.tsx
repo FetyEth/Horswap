@@ -14,14 +14,6 @@ describe('SwapModalFooter.tsx', () => {
         onConfirm={jest.fn()}
         swapErrorMessage={undefined}
         disabledConfirm={false}
-        fiatValueInput={{
-          data: undefined,
-          isLoading: false,
-        }}
-        fiatValueOutput={{
-          data: undefined,
-          isLoading: false,
-        }}
         showAcceptChanges={false}
         onAcceptChanges={jest.fn()}
       />
@@ -50,14 +42,6 @@ describe('SwapModalFooter.tsx', () => {
         onConfirm={jest.fn()}
         swapErrorMessage={undefined}
         disabledConfirm={false}
-        fiatValueInput={{
-          data: undefined,
-          isLoading: false,
-        }}
-        fiatValueOutput={{
-          data: undefined,
-          isLoading: false,
-        }}
         showAcceptChanges={true}
         onAcceptChanges={mockAcceptChanges}
       />
@@ -78,14 +62,6 @@ describe('SwapModalFooter.tsx', () => {
         onConfirm={jest.fn()}
         swapErrorMessage={undefined}
         disabledConfirm
-        fiatValueInput={{
-          data: undefined,
-          isLoading: false,
-        }}
-        fiatValueOutput={{
-          data: undefined,
-          isLoading: false,
-        }}
         showAcceptChanges={false}
         onAcceptChanges={jest.fn()}
       />

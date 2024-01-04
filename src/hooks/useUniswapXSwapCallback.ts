@@ -34,13 +34,7 @@ async function getUpdatedNonce(swapper: string, chainId: number): Promise<BigNum
   }
 }
 
-export function useUniswapXSwapCallback({
-  trade,
-}: {
-  trade?: DutchOrderTrade
-  fiatValues: { amountIn?: number; amountOut?: number }
-  allowedSlippage: Percent
-}) {
+export function useUniswapXSwapCallback({ trade }: { trade?: DutchOrderTrade; allowedSlippage: Percent }) {
   const { account, provider } = useWeb3React()
 
   return useCallback(async () => {

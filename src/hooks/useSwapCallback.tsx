@@ -24,7 +24,6 @@ export type SwapResult = Awaited<ReturnType<ReturnType<typeof useSwapCallback>>>
 // and the user has approved the slippage adjusted input amount for the trade
 export function useSwapCallback(
   trade: InterfaceTrade | undefined, // trade to execute, required
-  fiatValues: { amountIn?: number; amountOut?: number }, // usd values for amount in and out, logged for analytics
   allowedSlippage: Percent, // in bips
   permitSignature: PermitSignature | undefined
 ) {
@@ -37,7 +36,6 @@ export function useSwapCallback(
   const uniswapXSwapCallback = useUniswapXSwapCallback({
     trade: isUniswapXTrade(trade) ? trade : undefined,
     allowedSlippage,
-    fiatValues,
   })
 
   const universalRouterSwapCallback = useUniversalRouterSwapCallback(isClassicTrade(trade) ? trade : undefined, {

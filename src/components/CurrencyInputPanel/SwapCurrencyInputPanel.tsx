@@ -23,7 +23,6 @@ import DoubleCurrencyLogo from '../DoubleLogo'
 import { Input as NumericalInput } from '../NumericalInput'
 import { RowBetween, RowFixed } from '../Row'
 import CurrencySearchModal from '../SearchModal/CurrencySearchModal'
-import { FiatValue } from './FiatValue'
 
 const InputPanel = styled.div<{ hideInput?: boolean }>`
   ${flexColumnNoWrap};
@@ -254,8 +253,6 @@ const SwapCurrencyInputPanel = forwardRef<HTMLInputElement, SwapCurrencyInputPan
       showCurrencyAmount,
       disableNonToken,
       renderBalance,
-      fiatValue,
-      priceImpact,
       hideBalance = false,
       pair = null, // used for double token logo
       hideInput = false,
@@ -375,9 +372,7 @@ const SwapCurrencyInputPanel = forwardRef<HTMLInputElement, SwapCurrencyInputPan
           {Boolean(!hideInput && !hideBalance) && (
             <FiatRow>
               <RowBetween>
-                <LoadingOpacityContainer $loading={loading}>
-                  {fiatValue && <FiatValue fiatValue={fiatValue} priceImpact={priceImpact} />}
-                </LoadingOpacityContainer>
+                <LoadingOpacityContainer $loading={false}></LoadingOpacityContainer>
                 {account ? (
                   <RowFixed style={{ height: '16px' }}>
                     <ThemedText.DeprecatedBody

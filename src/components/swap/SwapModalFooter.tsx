@@ -45,8 +45,6 @@ export default function SwapModalFooter({
   onConfirm: () => void
   swapErrorMessage?: ReactNode
   disabledConfirm: boolean
-  fiatValueInput: { data?: number; isLoading: boolean }
-  fiatValueOutput: { data?: number; isLoading: boolean }
   showAcceptChanges: boolean
   onAcceptChanges: () => void
   isLoading: boolean
