@@ -20,7 +20,7 @@ The interface should automatically open. If it does not, navigate to [http://loc
 
 ## Creating a production build
 
-Build horswap docker
+Build Jingo docker
 ```
 docker build -f Dockerfile . -t horswap
 ```
