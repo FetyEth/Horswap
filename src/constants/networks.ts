@@ -90,6 +90,10 @@ export const FALLBACK_URLS = {
     'https://bsc-dataseed4.defibit.io',
     'https://rpc.ankr.com/bsc',
   ],
+  [ChainId.PLASMA]: [
+    // "Safe" URLs
+    'https://rpc.plasma.to',
+  ],  
   [ChainId.AVALANCHE]: [
     // "Safe" URLs
     'https://api.avax.network/ext/bc/C/rpc',
@@ -124,6 +128,7 @@ export const RPC_URLS = {
   [ChainId.CELO]: FALLBACK_URLS[ChainId.CELO],
   [ChainId.CELO_ALFAJORES]: FALLBACK_URLS[ChainId.CELO_ALFAJORES],
   [ChainId.BNB]: [...FALLBACK_URLS[ChainId.BNB]],
+  [ChainId.PLASMA]: [...FALLBACK_URLS[ChainId.PLASMA]],
   [ChainId.AVALANCHE]: [...FALLBACK_URLS[ChainId.AVALANCHE]],
   [ChainId.BASE]: [...FALLBACK_URLS[ChainId.BASE]],
 }

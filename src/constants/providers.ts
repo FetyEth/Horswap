@@ -28,6 +28,7 @@ export const RPC_PROVIDERS: { [key in SupportedInterfaceChain]: StaticJsonRpcPro
   [ChainId.CELO]: providerFactory(ChainId.CELO),
   [ChainId.CELO_ALFAJORES]: providerFactory(ChainId.CELO_ALFAJORES),
   [ChainId.BNB]: providerFactory(ChainId.BNB),
+  [ChainId.PLASMA]: providerFactory(ChainId.PLASMA),
   [ChainId.AVALANCHE]: providerFactory(ChainId.AVALANCHE),
   [ChainId.BASE]: providerFactory(ChainId.BASE),
 }

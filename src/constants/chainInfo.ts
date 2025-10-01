@@ -9,6 +9,7 @@ import baseLogo from 'assets/svg/base_logo.svg'
 import baseSquareLogo from 'assets/svg/base_square_logo.svg'
 import bnbSquareLogoUrl from 'assets/svg/bnb_square_logo.svg'
 import bnbLogo from 'assets/svg/bnb-logo.svg'
+import plasmaLogo from 'assets/images/plasma-logo.png'
 import celoLogo from 'assets/svg/celo_logo.svg'
 import celoSquareLogoUrl from 'assets/svg/celo_square_logo.svg'
 import optimismSquareLogoUrl from 'assets/svg/optimism_square_logo.svg'
@@ -19,7 +20,7 @@ import ms from 'ms'
 import { darkTheme } from 'theme/colors'
 
 import { SupportedL1ChainId, SupportedL2ChainId } from './chains'
-import { ARBITRUM_LIST, AVALANCHE_LIST, BASE_LIST, CELO_LIST, OPTIMISM_LIST, PLASMA_BNB_LIST } from './lists'
+import { ARBITRUM_LIST, AVALANCHE_LIST, BASE_LIST, CELO_LIST, OPTIMISM_LIST, PLASMA_LIST, PLASMA_BNB_LIST } from './lists'
 
 export const AVERAGE_L1_BLOCK_TIME = ms(`12s`)
 
@@ -75,6 +76,18 @@ const CHAIN_INFO: ChainInfoMap = {
     nativeCurrency: { name: 'Ether', symbol: 'ETH', decimals: 18 },
     color: darkTheme.chain_1,
   },
+  [ChainId.PLASMA]: {
+    networkType: NetworkType.L1,
+    docs: 'https://docs.uniswap.org/',
+    explorer: 'https://plasmascan.to/',
+    infoLink: 'https://info.uniswap.org/#/',
+    label: 'Plasma',
+    logoUrl: plasmaLogo,
+    circleLogoUrl: arbitrumCircleLogoUrl,
+    defaultListUrl: PLASMA_LIST,	
+    nativeCurrency: { name: 'XPL', symbol: 'XPL', decimals: 18 },
+    color: darkTheme.chain_1,
+  },  
   [ChainId.GOERLI]: {
     networkType: NetworkType.L1,
     docs: 'https://docs.uniswap.org/',
