@@ -110,6 +110,13 @@ export const USDT_POLYGON = new Token(
   'USDT',
   'Tether USD'
 )
+export const USDT0_PLASMA = new Token(
+  ChainId.PLASMA,
+  '0xB8CE59FC3717ada4C02eaDF9682A9e934F625ebb',
+  6,
+  'USDT0',
+  'USDT0'
+)
 export const WBTC_POLYGON = new Token(
   ChainId.POLYGON,
   '0x1bfd67037b42cf73acf2047067bd4f2c47d9bfd6',
@@ -329,6 +336,7 @@ export const WRAPPED_NATIVE_CURRENCY: { [chainId: number]: Token | undefined } =
     'Celo native asset'
   ),
   [ChainId.BNB]: new Token(ChainId.BNB, '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c', 18, 'WBNB', 'Wrapped BNB'),
+  [ChainId.PLASMA]: new Token(ChainId.PLASMA, '0x6100E367285b01F48D07953803A2d8dCA5D19873', 18, 'WXPL', 'Wrapped XPL'),
   [ChainId.AVALANCHE]: new Token(
     ChainId.AVALANCHE,
     '0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7',
@@ -396,6 +404,25 @@ class BscNativeCurrency extends NativeCurrency {
     super(chainId, 18, 'BNB', 'BNB')
   }
 }
+export function isPlasma(chainId: number): chainId is ChainId.PLASMA {
+  return chainId === ChainId.PLASMA
+}
+
+class PlasmaNativeCurrency extends NativeCurrency {
+  equals(other: Currency): boolean {
+    return other.isNative && other.chainId === this.chainId
+  }
+
+  get wrapped(): Token {
+    const wrapped = WRAPPED_NATIVE_CURRENCY[this.chainId]
+    invariant(wrapped instanceof Token)
+    return wrapped
+  }
+
+  public constructor(chainId: number) {
+    super(chainId, 18, 'XPL', 'XPL')
+  }
+}
 
 export function isAvalanche(chainId: number): chainId is ChainId.AVALANCHE {
   return chainId === ChainId.AVALANCHE
@@ -445,11 +472,14 @@ export function nativeOnChain(chainId: number): NativeCurrency | Token {
     nativeCurrency = new BscNativeCurrency(chainId)
   } else if (isAvalanche(chainId)) {
     nativeCurrency = new AvaxNativeCurrency(chainId)
+  } else if (isPlasma(chainId)) {  // ✅ add this
+    nativeCurrency = new PlasmaNativeCurrency(chainId)
   } else {
     nativeCurrency = ExtendedEther.onChain(chainId)
   }
   return (cachedNativeCurrency[chainId] = nativeCurrency)
 }
+
 
 export function getSwapCurrencyId(currency: Currency): string {
   if (currency.isToken) {
@@ -468,6 +498,7 @@ export const TOKEN_SHORTHANDS: { [shorthand: string]: { [chainId in ChainId]?: s
     [ChainId.POLYGON]: USDC_POLYGON.address,
     [ChainId.POLYGON_MUMBAI]: USDC_POLYGON_MUMBAI.address,
     [ChainId.BNB]: USDC_BSC.address,
+	[ChainId.PLASMA]: USDT0_PLASMA.address,
     [ChainId.CELO]: PORTAL_USDC_CELO.address,
     [ChainId.CELO_ALFAJORES]: PORTAL_USDC_CELO.address,
     [ChainId.GOERLI]: USDC_GOERLI.address,
